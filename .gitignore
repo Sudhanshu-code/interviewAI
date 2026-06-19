@@ -1,0 +1,29 @@
+# Node
+frontend/node_modules
+frontend/dist
+
+# Spring Boot
+backend/target
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea
+.vscode
+*.iml
+.classpath
+.project
+.settings
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.*
+
+# Application secrets
+application-local.yml

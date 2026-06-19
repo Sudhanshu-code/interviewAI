@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: interview-platform
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/interview
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
+
+jwt:
+  secret: sudhanshu9653aniket767rajeshankitkrishna1523
+  expiration: 3600000
