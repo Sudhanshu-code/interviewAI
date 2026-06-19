@@ -7,6 +7,7 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import in.sudhanshu.interview.user.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -26,9 +27,11 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String email) {
+    public String generateToken(User user) {
         return Jwts.builder()
-                .subject(email)
+                .subject(user.getEmail())
+                .claim("userId", user.getId())
+                .claim("role", user.getRole().name())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey()).compact();
@@ -36,6 +39,14 @@ public class JwtService {
 
     public String extractEmail(String token) {
         return extractToken(token).getSubject();
+    }
+
+    public Long extractUserId(String token) {
+        return extractToken(token).get("userId", Long.class);
+    }
+
+    public String extractRole(String token) {
+        return extractToken(token).get("role", String.class);
     }
 
     public boolean isTokenValid(String token) {

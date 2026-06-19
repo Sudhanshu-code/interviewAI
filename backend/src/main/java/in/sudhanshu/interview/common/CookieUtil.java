@@ -21,6 +21,10 @@ public class CookieUtil {
     public String getAccessToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
 
+        if (cookies == null) {
+            return null;
+        }
+
         for (Cookie cookie : cookies) {
             if ("access_token".equals(cookie.getName())) {
                 return cookie.getValue();

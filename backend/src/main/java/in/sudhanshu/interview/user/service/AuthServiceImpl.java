@@ -14,6 +14,7 @@ import in.sudhanshu.interview.auth.dto.RegisterRequest;
 import in.sudhanshu.interview.auth.service.AuthService;
 import in.sudhanshu.interview.exception.EmailAlreadyExistsException;
 import in.sudhanshu.interview.security.JwtService;
+import in.sudhanshu.interview.user.entity.Role;
 import in.sudhanshu.interview.user.entity.User;
 import in.sudhanshu.interview.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ public class AuthServiceImpl implements AuthService {
 
         User user = User.builder()
                 .name(request.name())
+                .role(Role.USER)
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
                 .createdAt(LocalDateTime.now())
@@ -49,7 +51,8 @@ public class AuthServiceImpl implements AuthService {
         authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
 
-        String token = jwtService.generateToken(request.email());
+        User user = userRepository.findByEmail(request.email()).orElseThrow();
+        String token = jwtService.generateToken(user);
         return token;
     }
 
