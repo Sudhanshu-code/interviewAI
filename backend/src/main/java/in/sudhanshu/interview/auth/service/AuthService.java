@@ -6,5 +6,5 @@ public interface AuthService {
 
     void register(RegisterRequest request);
 
-    AuthResponse login(LoginRequest request);
+    String login(LoginRequest request);
 }
