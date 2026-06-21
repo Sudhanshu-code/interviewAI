@@ -24,4 +24,22 @@ public class GlobalExceptionHandler {
                                 .badRequest()
                                 .body(ex.getMessage());
         }
+
+        @ExceptionHandler(ResourceNotFoundException.class)
+        public ResponseEntity<String> handleNotFound(
+                        ResourceNotFoundException ex) {
+
+                return ResponseEntity
+                                .status(HttpStatus.NOT_FOUND)
+                                .body(ex.getMessage());
+        }
+
+        @ExceptionHandler(BadRequestException.class)
+        public ResponseEntity<String> handleBadRequest(
+                        BadRequestException ex) {
+
+                return ResponseEntity
+                                .badRequest()
+                                .body(ex.getMessage());
+        }
 }
