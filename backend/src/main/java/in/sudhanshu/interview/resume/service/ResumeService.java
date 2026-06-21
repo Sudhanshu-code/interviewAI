@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import in.sudhanshu.interview.resume.dto.ResumeResponse;
+import in.sudhanshu.interview.resume.dto.ResumeTextResponse;
 
 public interface ResumeService {
     ResumeResponse uploadResume(MultipartFile file);
@@ -12,4 +13,6 @@ public interface ResumeService {
     List<ResumeResponse> getMyResumes();
 
     void deleteResume(Long resumeId);
+
+    ResumeTextResponse getResumeText(Long resumeId);
 }

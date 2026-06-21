@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import in.sudhanshu.interview.exception.BadRequestException;
 import in.sudhanshu.interview.resume.dto.ResumeResponse;
+import in.sudhanshu.interview.resume.dto.ResumeTextResponse;
 import in.sudhanshu.interview.resume.service.ResumeService;
 import lombok.RequiredArgsConstructor;
 
@@ -59,5 +60,11 @@ public class ResumeController {
 
         return ResponseEntity.noContent()
                 .build();
+    }
+
+    @GetMapping("/{id}/text")
+    public ResumeTextResponse getResumeText(@PathVariable Long id) {
+
+        return resumeService.getResumeText(id);
     }
 }

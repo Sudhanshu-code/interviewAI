@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import in.sudhanshu.interview.exception.BadRequestException;
 import in.sudhanshu.interview.exception.ResourceNotFoundException;
 import in.sudhanshu.interview.resume.dto.ResumeResponse;
+import in.sudhanshu.interview.resume.dto.ResumeTextResponse;
 import in.sudhanshu.interview.resume.entity.Resume;
 import in.sudhanshu.interview.resume.repository.ResumeRepository;
 import in.sudhanshu.interview.user.entity.User;
@@ -29,6 +30,8 @@ public class ResumeServiceImpl implements ResumeService {
 
     private final FileStorageService fileStorageService;
 
+    private final PdfExtractionService pdfExtractionService;
+
     @Override
     public ResumeResponse uploadResume(MultipartFile file) {
 
@@ -43,11 +46,14 @@ public class ResumeServiceImpl implements ResumeService {
 
             Files.copy(file.getInputStream(), targetLocation);
 
+            String pdfText = pdfExtractionService.extractText(targetLocation.toString());
+
             Resume resume = Resume.builder()
                     .originalFileName(file.getOriginalFilename())
                     .filePath(targetLocation.toString())
                     .storedFileName(storedFileName)
                     .fileSize(file.getSize())
+                    .extractedText(pdfText)
                     .uploadedAt(LocalDateTime.now())
                     .user(user)
                     .build();
@@ -92,5 +98,26 @@ public class ResumeServiceImpl implements ResumeService {
         }
 
         resumeRepository.delete(resume);
+    }
+
+    @Override
+    public ResumeTextResponse getResumeText(
+            Long resumeId) {
+
+        User currentUser = currentUserService
+                .getCurrentUser();
+
+        Resume resume = resumeRepository
+                .findById(resumeId)
+                .orElseThrow();
+
+        if (!resume.getUser().getId().equals(currentUser.getId())) {
+
+            throw new BadRequestException("You do not own this resume");
+        }
+
+        return new ResumeTextResponse(
+                resume.getId(),
+                resume.getExtractedText());
     }
 }

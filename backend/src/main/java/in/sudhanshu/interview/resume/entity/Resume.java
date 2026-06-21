@@ -32,4 +32,7 @@ public class Resume {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(columnDefinition = "LONGTEXT")
+    private String extractedText;
 }

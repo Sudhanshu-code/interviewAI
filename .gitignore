@@ -27,3 +27,5 @@ Thumbs.db
 
 # Application secrets
 application-local.yml
+
+uploads
