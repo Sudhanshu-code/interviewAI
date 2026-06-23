@@ -1,6 +1,8 @@
 spring:
   application:
     name: interview-platform
+  profile:
+    active: local
 
   datasource:
     url: jdbc:mysql://localhost:3306/interview
@@ -20,3 +22,7 @@ spring:
 jwt:
   secret: sudhanshu9653aniket767rajeshankitkrishna1523
   expiration: 3600000
+
+gemini:
+  api:
+    key: ${GEMINI_API_KEY}
